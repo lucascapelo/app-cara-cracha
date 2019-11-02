@@ -14,7 +14,7 @@
             <template v-slot:activator="{ on }">
               <v-btn color="primary" dark v-on="on">{{andar}}</v-btn>
             </template>
-            <v-toolbar></v-toolbar>
+            
             <v-card>
               <v-card-title>
                 <span class="headline">Use Google's location service?</span>
