@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app color="blue darken-4">
+    <v-app-bar dark app color="blue darken-4">
       <v-toolbar-title class="headline text-uppercase">
         <span>Cara</span>
         <span class="font-weight-light">Crachá</span>
@@ -12,7 +12,16 @@
     </v-app-bar>
 
     <v-content>
-      <ViewPorteiro :moradores="moradores" :apartamentos="apartamentos" />
+      <ViewPorteiro
+        v-if="this.session=== 'porteiro'"
+        :moradores="moradores"
+        :apartamentos="apartamentos"
+      />
+      <ViewSindico
+        v-if="this.session=== 'sindico'"
+        :moradores="moradores"
+        :apartamentos="apartamentos"
+      />
     </v-content>
   </v-app>
 </template>
@@ -29,7 +38,7 @@ export default {
   },
   data() {
     return {
-      session: "porteiro",
+      session: "sindico",
       apartamentos: [],
       moradores: []
     };
@@ -55,6 +64,7 @@ export default {
             condomino.id = liver.id;
             this.moradores.push(condomino);
           });
+          console.log(this.moradores);
         });
   }
 };

@@ -10,7 +10,7 @@
       <!-- Renderizando os botoes de andares -->
     </div>
     <v-row align="center">
-      <v-col v-for="andar in apartamentos" :key="andar.id" class="text-center" cols="6">
+      <v-col v-for="andar in apartamentos" :key="andar" class="text-center" cols="3">
         <v-row justify="center">
           <v-dialog fullscreen hide-overlay v-model="dialog">
             <template v-slot:activator="{ on }">
@@ -18,14 +18,36 @@
             </template>
             <!-- código do card -->
             <v-card>
-              <v-card-title>
-                <span class="headline">Use Google's location service?</span>
-              </v-card-title>
-              <v-card-text></v-card-text>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="light grey" text @click="dialog = false">Voltar</v-btn>
-              </v-card-actions>
+              <v-toolbar dark color="blue darken-4">
+                <span class="headline">Moradores {{andar}}</span>
+              </v-toolbar>
+              <v-container fluid>
+                <v-row dense>
+                  <div v-if="moradores.andar === andar.id">
+                    <!-- CADA CARD DE MORADOR -->
+                    <v-card
+                      class="ma-2"
+                      max-width="200"
+                      v-for="individuos in moradores"
+                      :key="individuos.andar"
+                    >
+                      <v-card-title>{{individuos.nome}}</v-card-title>
+                      <v-card-text>
+                        <div>
+                          <strong>{{individuos.sexo}}</strong>
+                        </div>
+
+                        <div>
+                          <span>{{individuos.tipo}}</span>
+                        </div>
+                      </v-card-text>
+                    </v-card>
+                  </div>
+                </v-row>
+              </v-container>
+              <v-toolbar dark color="blue darken-4">
+                <span class="headline">Agregados</span>
+              </v-toolbar>
             </v-card>
           </v-dialog>
         </v-row>
