@@ -43,7 +43,6 @@ export default {
         snapshot.forEach(doc => {
           let apto = doc.id;
           this.apartamentos.push(apto);
-          console.log(apto);
         });
       }),
       //chamada de moradores
@@ -55,7 +54,6 @@ export default {
             let condomino = liver.data();
             condomino.id = liver.id;
             this.moradores.push(condomino);
-            console.log(liver.data());
           });
         });
   }

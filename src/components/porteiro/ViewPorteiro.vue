@@ -1,20 +1,22 @@
 <template>
   <div>
     <div class="header">
+      <!-- Titulo da página -->
       <v-toolbar>
         <v-spacer></v-spacer>
         <span class="headline text-uppercase">Lista de Andares</span>
         <v-spacer></v-spacer>
       </v-toolbar>
+      <!-- Renderizando os botoes de andares -->
     </div>
     <v-row align="center">
       <v-col v-for="andar in apartamentos" :key="andar.id" class="text-center" cols="6">
         <v-row justify="center">
-          <v-dialog v-model="dialog" width="800px">
+          <v-dialog fullscreen hide-overlay v-model="dialog">
             <template v-slot:activator="{ on }">
               <v-btn color="primary" dark v-on="on">{{andar}}</v-btn>
             </template>
-            
+            <!-- código do card -->
             <v-card>
               <v-card-title>
                 <span class="headline">Use Google's location service?</span>
