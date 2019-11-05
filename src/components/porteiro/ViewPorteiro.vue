@@ -47,6 +47,7 @@ export default {
   methods: {
     openMoradoresCard(andar){
       this.andarId = andar
+      this.dialog = true
       console.log(andar)
     }
   },

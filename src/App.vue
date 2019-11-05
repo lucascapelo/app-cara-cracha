@@ -38,7 +38,7 @@ export default {
   },
   data() {
     return {
-      session: "porteiro",
+      session: "sindico",
       apartamentos: []
     };
   }

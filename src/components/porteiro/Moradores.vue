@@ -2,38 +2,52 @@
 
 <template>
 
-  <v-dialog>
+  <v-dialog fullscreen v-model="dialog">
     <v-card>
     <v-toolbar dark color="blue darken-4">
       <span class="headline">Moradores {{andar}}</span>
     </v-toolbar>
     <v-container fluid>
-      <v-row dense>
-        <div v-if="moradores.apartamento === andar.id">
+      <v-row dense>        
           <!-- CADA CARD DE MORADOR -->
-          <v-card
+        <div class="cards" v-for="individuos in moradores"
+            :key="individuos.id">
+          <v-card v-if="individuos.tipo === 'morador'"
             class="ma-2"
-            max-width="200"
-            v-for="individuos in moradores"
-            :key="individuos.andar"
-          >
+            max-width="200"          
+        >
             <v-card-title>{{individuos.nome}}</v-card-title>
             <v-card-text>
               <div>
                 <strong>{{individuos.sexo}}</strong>
-              </div>
-
-              <div>
-                <span>{{individuos.tipo}}</span>
-              </div>
+              </div>              
             </v-card-text>
           </v-card>
-        </div>
+        </div>      
       </v-row>
     </v-container>
     <v-toolbar dark color="blue darken-4">
       <span class="headline">Agregados</span>
     </v-toolbar>
+    <v-container fluid>
+      <v-row dense>        
+          <!-- CADA CARD DE AGREGADOS -->
+        <div class="cards" v-for="individuos in moradores"
+            :key="individuos.id">
+          <v-card v-if="individuos.tipo === 'agregado'"
+            class="ma-2"
+            max-width="200"          
+        >
+            <v-card-title>{{individuos.nome}}</v-card-title>
+            <v-card-text>
+              <div>
+                <strong>{{individuos.sexo}}</strong>
+              </div>              
+            </v-card-text>
+          </v-card>
+        </div>      
+      </v-row>
+    </v-container>
   </v-card>
   </v-dialog>
 </template>
