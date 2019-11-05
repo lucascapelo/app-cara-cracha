@@ -2,7 +2,7 @@
   <div class="header">
     <h1>Teste</h1>
     <v-toolbar>
-      <span>Teste de barra</span>
+      <span>Adicionar Morador</span>
       <v-spacer></v-spacer>
 
       <v-dialog v-model="dialog" persistent max-width="600px">

@@ -1,5 +1,9 @@
+
+
 <template>
-  <v-card>
+
+  <v-dialog>
+    <v-card>
     <v-toolbar dark color="blue darken-4">
       <span class="headline">Moradores {{andar}}</span>
     </v-toolbar>
@@ -31,27 +35,33 @@
       <span class="headline">Agregados</span>
     </v-toolbar>
   </v-card>
+  </v-dialog>
 </template>
 
 <script>
 import bancoDados from "@/firebase/init";
 export default {
+  props: ["andarId"],
   data() {
-    return {};
+    return {
+      moradores: []
+    };
   },
   created() {
     //chamada de moradores
     bancoDados
       .collection("morador")
+      .where("apartamento","==",andarId)
       .get()
       .then(snapshot => {
         snapshot.forEach(liver => {
-          let condomino = liver.data();
-          condomino.id = liver.id;
-          this.moradores.push(condomino);
+          let morador = liver.data();
+          morador.id = liver.id;
+          this.moradores.push(morador);
         });
         console.log(this.moradores);
       });
+      
   }
 };
 </script>

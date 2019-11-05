@@ -14,12 +14,12 @@
     <v-content>
       <ViewPorteiro
         v-if="this.session=== 'porteiro'"
-        :moradores="moradores"
+        
         :apartamentos="apartamentos"
       />
       <ViewSindico
         v-if="this.session=== 'sindico'"
-        :moradores="moradores"
+        
         :apartamentos="apartamentos"
       />
     </v-content>
@@ -41,18 +41,7 @@ export default {
       session: "porteiro",
       apartamentos: []
     };
-  },
-  created() {
-    //chamada de apartamentos
-    bancoDados
-      .collection("apartamentos")
-      .get()
-      .then(snapshot => {
-        snapshot.forEach(doc => {
-          let apto = doc.id;
-          this.apartamentos.push(apto);
-        });
-      });
   }
+ 
 };
 </script>
