@@ -7,7 +7,7 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn text>
-        <span class="mr-2">Tipo de usuáruio</span>
+        <span class="mr-2">{{this.session}}</span>
       </v-btn>
     </v-app-bar>
 
@@ -38,9 +38,8 @@ export default {
   },
   data() {
     return {
-      session: "sindico",
-      apartamentos: [],
-      moradores: []
+      session: "porteiro",
+      apartamentos: []
     };
   },
   created() {
@@ -53,19 +52,7 @@ export default {
           let apto = doc.id;
           this.apartamentos.push(apto);
         });
-      }),
-      //chamada de moradores
-      bancoDados
-        .collection("morador")
-        .get()
-        .then(snapshot => {
-          snapshot.forEach(liver => {
-            let condomino = liver.data();
-            condomino.id = liver.id;
-            this.moradores.push(condomino);
-          });
-          console.log(this.moradores);
-        });
+      });
   }
 };
 </script>

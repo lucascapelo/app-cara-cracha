@@ -10,46 +10,12 @@
       <!-- Renderizando os botoes de andares -->
     </div>
     <v-row align="center">
-      <v-col v-for="andar in apartamentos" :key="andar" class="text-center" cols="3">
+      <v-col v-for="andar in apartamentos" :key="andar.num" class="text-center" cols="3">
         <v-row justify="center">
-          <v-dialog fullscreen hide-overlay v-model="dialog">
-            <template v-slot:activator="{ on }">
-              <v-btn color="primary" dark v-on="on">{{andar}}</v-btn>
-            </template>
-            <!-- código do card -->
-            <v-card>
-              <v-toolbar dark color="blue darken-4">
-                <span class="headline">Moradores {{andar}}</span>
-              </v-toolbar>
-              <v-container fluid>
-                <v-row dense>
-                  <div v-if="moradores.andar === andar.id">
-                    <!-- CADA CARD DE MORADOR -->
-                    <v-card
-                      class="ma-2"
-                      max-width="200"
-                      v-for="individuos in moradores"
-                      :key="individuos.andar"
-                    >
-                      <v-card-title>{{individuos.nome}}</v-card-title>
-                      <v-card-text>
-                        <div>
-                          <strong>{{individuos.sexo}}</strong>
-                        </div>
-
-                        <div>
-                          <span>{{individuos.tipo}}</span>
-                        </div>
-                      </v-card-text>
-                    </v-card>
-                  </div>
-                </v-row>
-              </v-container>
-              <v-toolbar dark color="blue darken-4">
-                <span class="headline">Agregados</span>
-              </v-toolbar>
-            </v-card>
-          </v-dialog>
+          <template v-slot:activator="{ on }">
+            <v-btn color="primary" dark v-on="on">{{andar}}</v-btn>
+          </template>
+          <!-- código do card -->
         </v-row>
       </v-col>
     </v-row>
@@ -57,12 +23,14 @@
 </template>
 
 <script>
+import bancoDados from "@/firebase/init";
 export default {
   name: "ViewPorteiro",
-  props: ["moradores", "apartamentos"],
+  props: ["apartamentos"],
   data() {
     return {
-      dialog: false
+      dialog: false,
+      moradores: []
     };
   }
 };
