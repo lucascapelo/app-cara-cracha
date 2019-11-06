@@ -35,7 +35,7 @@
             <!-- CADA CARD DE MORADOR -->
             <div class="cards" v-for="individuos in moradores" :key="individuos.id">
               <v-card v-if="individuos.tipo === 'Morador'" class="ma-2" max-width="200">
-                <v-card-title>{{individuos.nome}}</v-card-title>
+                <v-card-title>{{individuos.nome}} {{individuos.sobrenome}}</v-card-title>
                 <v-card-text>
                   <div>
                     <strong>{{individuos.sexo}}</strong>
@@ -52,7 +52,7 @@
           <v-row dense>
             <!-- CADA CARD DE AGREGADOS -->
             <div class="cards" v-for="individuos in moradores" :key="individuos.id">
-              <v-card v-if="individuos.tipo === 'agregado'" class="ma-2" max-width="200">
+              <v-card v-if="individuos.tipo === 'Agregado'" class="ma-2" max-width="200">
                 <v-card-title>{{individuos.nome}}</v-card-title>
                 <v-card-text>
                   <div>
@@ -99,10 +99,10 @@ export default {
         });
       this.dialog = true;
       console.log(andar);
-      this.moradores = [];
     },
     closeDialog() {
       this.dialog = false;
+      this.moradores = [];
     }
   },
   created() {
