@@ -17,11 +17,6 @@
       <v-col v-for="andar in apartamentos" :key="andar.num" class="text-center" cols="3">
         <v-row justify="center">
           <v-btn color="primary" v-bind="andar.num" @click="openMoradoresCard(andar)">{{andar}}</v-btn>
-
-          <!-- Ao clicar, chamar componentes de moradores
-            <Moradores
-          :andarId="andarId"/>-->
-          <!-- código do card -->
         </v-row>
       </v-col>
     </v-row>
@@ -75,7 +70,7 @@
 
 <script>
 import bancoDados from "@/firebase/init";
-import Moradores from "./Moradores";
+
 export default {
   name: "ViewPorteiro",
 
