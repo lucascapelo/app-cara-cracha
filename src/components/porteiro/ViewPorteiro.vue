@@ -8,7 +8,7 @@
       <!-- Titulo da página -->
       <v-toolbar>
         <v-spacer></v-spacer>
-        <span class="headline text-uppercase">Lista de Andares</span>
+        <span class="headline text-uppercase">Lista de apartamentos</span>
         <v-spacer></v-spacer>
       </v-toolbar>
       <!-- Renderizando os botoes de andares -->
@@ -41,6 +41,11 @@
                     <strong>{{individuos.sexo}}</strong>
                   </div>
                 </v-card-text>
+                <v-card-actions>
+                  <v-btn v-if="session === 'sindico'" small color="red">
+                    <v-icon color="white">mdi-delete</v-icon>
+                  </v-btn>
+                </v-card-actions>
               </v-card>
             </div>
           </v-row>
@@ -59,6 +64,11 @@
                     <strong>{{individuos.sexo}}</strong>
                   </div>
                 </v-card-text>
+                <v-card-actions v-if="session === 'sindico'">
+                  <v-btn small color="red">
+                    <v-icon color="white">mdi-delete</v-icon>
+                  </v-btn>
+                </v-card-actions>
               </v-card>
             </div>
           </v-row>
@@ -73,7 +83,7 @@ import bancoDados from "@/firebase/init";
 
 export default {
   name: "ViewPorteiro",
-
+  props: ["session"],
   data() {
     return {
       dialog: false,

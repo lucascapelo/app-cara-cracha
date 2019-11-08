@@ -12,8 +12,8 @@
     </v-app-bar>
 
     <v-content>
-      <ViewPorteiro v-if="this.session=== 'porteiro'" :apartamentos="apartamentos" />
-      <ViewSindico v-if="this.session=== 'sindico'" :apartamentos="apartamentos" />
+      <ViewPorteiro v-if="this.session=== 'porteiro'" :session="session" />
+      <ViewSindico v-if="this.session=== 'sindico'" :session="session" />
     </v-content>
   </v-app>
 </template>
@@ -30,7 +30,7 @@ export default {
   },
   data() {
     return {
-      session: "porteiro",
+      session: "sindico",
       apartamentos: []
     };
   }

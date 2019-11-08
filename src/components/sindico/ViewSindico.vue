@@ -1,6 +1,5 @@
 <template>
   <div class="header">
-    
     <v-toolbar>
       <v-toolbar-title>Lista de Moradores</v-toolbar-title>
       <v-spacer></v-spacer>
@@ -28,7 +27,12 @@
                   <v-text-field label="Andar*" v-model="andar" required hint="Ex.:1302"></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6">
-                  <v-select :items="['Masculino', 'Feminino']" v-model="sexo" label="Sexo*" required></v-select>
+                  <v-select
+                    :items="['Masculino', 'Feminino']"
+                    v-model="sexo"
+                    label="Sexo*"
+                    required
+                  ></v-select>
                 </v-col>
                 <v-col cols="12" sm="6">
                   <v-select :items="['Morador', 'Agregado']" v-model="tipo" label="Tipo*" required></v-select>
@@ -54,43 +58,79 @@
         </v-card>
       </v-dialog>
     </v-toolbar>
+    <div>
+      <div class="cards" v-for="individuos in moradores" :key="individuos.id">
+        <v-card v-if="individuos.tipo === 'Morador'" class="ma-2" max-width="200">
+          <v-card-title class="headline">{{individuos.nome}} {{individuos.sobrenome}}</v-card-title>
+          <v-card-text>
+            <div>
+              <strong>{{individuos.sexo}}</strong>
+            </div>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn v-if="session === 'sindico'" small color="red">
+              <v-icon color="white">mdi-delete</v-icon>
+            </v-btn>
+            <v-spacer></v-spacer>
+            <v-btn v-if="session === 'sindico'" small color="danger">
+              <v-icon>mdi-pen</v-icon>
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </div>
+      <!-- <ViewPorteiro /> -->
+    </div>
   </div>
 </template>
 
 <script>
+import ViewPorteiro from "../porteiro/ViewPorteiro";
 import bancoDados from "@/firebase/init";
 export default {
+  components: { ViewPorteiro },
+  props: ["session"],
   data: () => ({
     dialog: false,
-    nome:'',
-    sobrenome:'',
-    andar:'',
-    sexo:'',
-    tipo:''
+    nome: "",
+    sobrenome: "",
+    andar: "",
+    sexo: "",
+    tipo: "",
+    moradores: []
   }),
-  methods:{
-    cadastrar(){
-      this.dialog = false
-      console.log(this.nome)
-      console.log(this.sobrenome)
-      console.log(this.andar)
-      console.log(this.sexo)
-      console.log(this.tipo)
-      bancoDados.collection('morador')
-      .add({
-        nome:this.nome,
-        sobrenome:this.sobrenome,
+  created() {
+    bancoDados
+      .collection("morador")
+
+      .get()
+      .then(snapshot => {
+        snapshot.forEach(liver => {
+          let morador = liver.data();
+          morador.id = liver.id;
+          this.moradores.push(morador);
+        });
+      });
+  },
+  methods: {
+    cadastrar() {
+      this.dialog = false;
+      console.log(this.nome);
+      console.log(this.sobrenome);
+      console.log(this.andar);
+      console.log(this.sexo);
+      console.log(this.tipo);
+      bancoDados.collection("morador").add({
+        nome: this.nome,
+        sobrenome: this.sobrenome,
         apartamento: this.andar,
         sexo: this.sexo,
         tipo: this.tipo,
         foto: null
-      })
+      });
+    }
   }
-  }
-  
 };
 </script>
 
 <style>
-
 </style>
