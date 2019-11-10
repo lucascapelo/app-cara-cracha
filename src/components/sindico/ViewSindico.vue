@@ -3,12 +3,13 @@
     <v-toolbar>
       <v-toolbar-title>Lista de Moradores</v-toolbar-title>
       <v-spacer></v-spacer>
-
+      <!-- BOTÃO DE CADASTRO DE MORADORES  -->
       <v-dialog v-model="dialog" persistent max-width="600px">
         <template v-slot:activator="{ on }">
           <v-btn fab depressed dark small color="orange" v-on="on">
             <v-icon color="white">mdi-plus</v-icon>
           </v-btn>
+          <!-- MODAL DE PREENCHIMENTO DE DADOS DO MORADOR -->
         </template>
         <v-card>
           <v-card-title>
@@ -41,6 +42,7 @@
                   <span>Foto:</span>
                   <v-spacer></v-spacer>
                   <v-btn small>
+                    <input type="file">
                     <v-icon>mdi-upload</v-icon>
                   </v-btn>
                 </v-col>
@@ -58,29 +60,59 @@
         </v-card>
       </v-dialog>
     </v-toolbar>
+    <!-- MOSTRUARIO DE MORADORES  -->
     <div>
-      <div class="cards" v-for="individuos in moradores" :key="individuos.id">
-        <v-card v-if="individuos.tipo === 'Morador'" class="ma-2" max-width="200">
-          <v-card-title class="headline">{{individuos.nome}} {{individuos.sobrenome}}</v-card-title>
-          <v-card-text>
-            <div>
-              <strong>{{individuos.sexo}}</strong>
-            </div>
-          </v-card-text>
-          <v-card-actions>
-            <v-btn v-if="session === 'sindico'" small color="red">
-              <v-icon color="white">mdi-delete</v-icon>
-            </v-btn>
-            <v-spacer></v-spacer>
-            <v-btn v-if="session === 'sindico'" small color="danger">
-              <v-icon>mdi-pen</v-icon>
-            </v-btn>
-          </v-card-actions>
-        </v-card>
+      <!-- <div class="cards" v-for="individuos in moradores" :key="individuos.id"> -->
+        <v-row>
+          <v-col v-for="individuos in moradores" :key="individuos.id" cols="3">
+            <v-card class="ma-2" width="255">
+              <v-card-title class="headline">{{individuos.nome}} {{individuos.sobrenome}}</v-card-title>
+              <v-card-text>
+                <div>
+                  <strong>{{individuos.sexo}}</strong>
+                </div>
+                <div>
+                  <strong>{{individuos.apartamento}}</strong>
+                </div>
+                <div>
+                  <strong>{{individuos.tipo}}</strong>
+                </div>
+              </v-card-text>
+              <v-card-actions>
+                <!-- BOTÕES DO CARD -->
+
+                <!-- BOTÃO DE DELETAR -->
+                <v-dialog v-model="dialogDelete" persistent max-width="320">
+                  <template v-slot:activator="{on}">  
+                  <v-btn v-if="session === 'sindico'" @click="check(individuos)" small color="red" v-on="on" >
+                    <v-icon color="white">mdi-delete</v-icon>
+                  </v-btn>
+                  </template>
+                  <v-card>
+                    <v-card-title class="headline">Tem certeza que deseja excluir esse morador?</v-card-title>
+                    <v-card-text>Depois de excluído, esse morador desaparecerá dos registros e não aparecerá novamente</v-card-text>
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn color="danger" text @click="dialogDelete = false">cancelar</v-btn>
+                      <v-btn color="red" text @click="deletarMorador(individuos)">Deletar</v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+                <v-spacer></v-spacer>
+
+                <!-- BOTÃO DE EDITAR MORADOR -->
+                <v-btn v-if="session === 'sindico'" small color="danger">
+                  <v-icon>mdi-pen</v-icon>
+                </v-btn>
+
+              </v-card-actions>
+            </v-card>
+        </v-col>
+        </v-row>
       </div>
       <!-- <ViewPorteiro /> -->
     </div>
-  </div>
+  <!-- </div> -->
 </template>
 
 <script>
@@ -91,12 +123,14 @@ export default {
   props: ["session"],
   data: () => ({
     dialog: false,
+    dialogDelete: false,
     nome: "",
     sobrenome: "",
     andar: "",
     sexo: "",
     tipo: "",
-    moradores: []
+    moradores: [],
+    pessoaId: null,
   }),
   created() {
     bancoDados
@@ -127,6 +161,25 @@ export default {
         tipo: this.tipo,
         foto: null
       });
+    },
+    deletarMorador(){
+      this.dialogDelete = false
+      console.log(this.pessoaId)
+      bancoDados.collection("morador")
+      .doc(this.pessoaId)
+      .delete()
+      .then(function() {
+      console.log("O morador foi removido!");
+      })
+      .catch(function(error) {
+      console.error("Error removing document: ", error);
+      this.pessoaId = null
+});
+
+    },
+    check(morador){
+      console.log(morador.id)
+      this.pessoaId = morador.id
     }
   }
 };
