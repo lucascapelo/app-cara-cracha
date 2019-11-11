@@ -69,14 +69,17 @@
               <v-card-title class="headline">{{individuos.nome}} {{individuos.sobrenome}}</v-card-title>
               <v-card-text>
                 <div>
+                  <v-chip>
+                    <span>{{individuos.tipo}}</span>
+                  </v-chip>
+                </div>
+                <div>
                   <strong>{{individuos.sexo}}</strong>
                 </div>
                 <div>
                   <strong>{{individuos.apartamento}}</strong>
                 </div>
-                <div>
-                  <strong>{{individuos.tipo}}</strong>
-                </div>
+                
               </v-card-text>
               <v-card-actions>
                 <!-- BOTÕES DO CARD -->
