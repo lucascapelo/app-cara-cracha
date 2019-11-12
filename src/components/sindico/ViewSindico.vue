@@ -42,7 +42,7 @@
                   <span>Foto:</span>
                   <v-spacer></v-spacer>
                   <v-btn small>
-                    <input type="file">
+                    <input type="file" @change="OnFileSelected">
                     <v-icon>mdi-upload</v-icon>
                   </v-btn>
                 </v-col>
@@ -64,7 +64,7 @@
     <div>
       <!-- <div class="cards" v-for="individuos in moradores" :key="individuos.id"> -->
         <v-row>
-          <v-col v-for="individuos in moradores" :key="individuos.id" cols="3">
+          <v-col v-for="individuos in moradores" :key="individuos.id" cols="2">
             <v-card class="ma-2" width="255">
               <v-card-title class="headline">{{individuos.nome}} {{individuos.sobrenome}}</v-card-title>
               <v-card-text>
@@ -121,6 +121,7 @@
 <script>
 import ViewPorteiro from "../porteiro/ViewPorteiro";
 import bancoDados from "@/firebase/init";
+import axios from 'axios';
 export default {
   components: { ViewPorteiro },
   props: ["session"],
@@ -133,6 +134,7 @@ export default {
     sexo: "",
     tipo: "",
     moradores: [],
+    selectedFile: null,
     pessoaId: null,
   }),
   created() {
@@ -164,6 +166,17 @@ export default {
         tipo: this.tipo,
         foto: null
       });
+    },
+    OnFileSelected(event){
+      this.selectedFile = event.target.files[0]
+    },
+    onUpload(){
+      const fd = new FormData();
+      fd.append('image',this.selectedFile, this.selectedFile.name)
+      axios.post('função que eu vou criar com o firebase functions', fd)
+        .then(res =>{
+          console.log(res);
+        })
     },
     deletarMorador(){
       this.dialogDelete = false
