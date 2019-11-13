@@ -58,7 +58,7 @@
             <!-- CADA CARD DE AGREGADOS -->
             <div class="cards" v-for="individuos in moradores" :key="individuos.id">
               <v-card v-if="individuos.tipo === 'Agregado'" class="ma-2" max-width="200">
-                <v-card-title>{{individuos.nome}}</v-card-title>
+                <v-card-title>{{individuos.nome}} {{individuos.sobrenome}}</v-card-title>
                 <v-card-text>
                   <div>
                     <strong>{{individuos.sexo}}</strong>
