@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar dark app color="blue darken-4">
+    <v-app-bar dark app color="#0f3252">
       <v-toolbar-title class="headline text-uppercase">
         <span>Cara</span>
         <span class="font-weight-light">Crachá</span>
@@ -30,7 +30,7 @@ export default {
   },
   data() {
     return {
-      session: "sindico",
+      session: "porteiro",
       apartamentos: []
     };
   }

@@ -65,7 +65,15 @@
       <!-- <div class="cards" v-for="individuos in moradores" :key="individuos.id"> -->
         <v-row>
           <v-col v-for="individuos in moradores" :key="individuos.id" cols="2">
-            <v-card class="ma-2" width="255">
+            <v-card shaped class="ma-2" width="255">
+               <v-avatar
+                class="profile"
+                color="grey"
+                size="164"
+                tile
+              >
+                <v-img src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"></v-img>
+              </v-avatar>
               <v-card-title class="headline">{{individuos.nome}} {{individuos.sobrenome}}</v-card-title>
               <v-card-text>
                 <div>
@@ -122,6 +130,7 @@
 import ViewPorteiro from "../porteiro/ViewPorteiro";
 import bancoDados from "@/firebase/init";
 import axios from 'axios';
+import firebase from 'firebase';
 export default {
   components: { ViewPorteiro },
   props: ["session"],
@@ -133,6 +142,7 @@ export default {
     andar: "",
     sexo: "",
     tipo: "",
+    foto: null,
     moradores: [],
     selectedFile: null,
     pessoaId: null,
@@ -164,20 +174,31 @@ export default {
         apartamento: this.andar,
         sexo: this.sexo,
         tipo: this.tipo,
-        foto: null
+        foto: this.foto
       });
+      OnFileSelected();
+      
     },
     OnFileSelected(event){
       this.selectedFile = event.target.files[0]
+      var storageRef = firebase.storage().ref();
+      var mountainImagesRef = storageRef.child(this.selectedFile.name);
+      mountainImagesRef.put(this.selectedFile).then(function(snapshot) {
+        snapshot.ref.getDownloadURL().then(function(downloadURL) {
+        console.log('File available at', downloadURL);
+        this.foto = downloadURL;
+      });
+        console.log('Uploaded a blob or file!');
+      });
     },
-    onUpload(){
-      const fd = new FormData();
-      fd.append('image',this.selectedFile, this.selectedFile.name)
-      axios.post('função que eu vou criar com o firebase functions', fd)
-        .then(res =>{
-          console.log(res);
-        })
-    },
+    // onUpload(){
+    //   const fd = new FormData();
+    //   fd.append('image',this.selectedFile, this.selectedFile.name)
+    //   axios.post('https://us-central1-appcara-cracha.cloudfunctions.net/uploadFile ', fd)
+    //     .then(res =>{
+    //       console.log(res);
+    //     })
+    // },
     deletarMorador(){
       this.dialogDelete = false
       console.log(this.pessoaId)
