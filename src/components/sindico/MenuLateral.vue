@@ -1,8 +1,9 @@
 <template>
   <v-navigation-drawer permanent dark app color="#0f3252">
+    <v-spacer></v-spacer>
     <v-list-item>
       <v-list-item-content>
-        <v-img src="@/assets/logo.png"></v-img>
+        <v-img src="@/assets/cara-cracha.png"></v-img>
         <!-- <v-list-item-title class="title">Application</v-list-item-title>
         <v-list-item-subtitle>subtext</v-list-item-subtitle>-->
       </v-list-item-content>
@@ -11,21 +12,72 @@
     <v-divider></v-divider>
     <!-- PRECISA FAZER O FORM FUNCIONAR -->
     <v-list dense nav>
-      <v-list-item link>
-        <v-dialog v-model="dialog" persistent max-width="600px">
-          <v-list-item-icon>
-            <v-icon>mdi-plus</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Cadastrar</v-list-item-title>
-          </v-list-item-content>
-        </v-dialog>
-      </v-list-item>
+      <v-dialog v-model="dialog" persistent max-width="600px">
+        <template v-slot:activator="{ on }">
+          <v-list-item link v-on="on">
+            <v-list-item-icon>
+              <v-icon>mdi-plus</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title class="text-uppercase">Cadastrar Morador</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </template>
+        <v-card>
+          <v-card-title>
+            <span class="headline">Cadastro de Morador</span>
+          </v-card-title>
+          <v-card-text>
+            <v-container>
+              <v-row>
+                <v-col cols="12" sm="6">
+                  <v-text-field label="Nome*" v-model="nome" required hint="Ex.: Lucas"></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <v-text-field label="Sobrenome*" v-model="sobrenome" required hint="Ex.: Capelo"></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="6" md="4">
+                  <v-text-field label="Andar*" v-model="andar" required hint="Ex.:1302"></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <v-select
+                    :items="['Masculino', 'Feminino']"
+                    v-model="sexo"
+                    label="Sexo*"
+                    required
+                  ></v-select>
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <v-select :items="['Morador', 'Agregado']" v-model="tipo" label="Tipo*" required></v-select>
+                </v-col>
+                <v-col cols="12">
+                  <span>Foto:</span>
+                  <v-spacer></v-spacer>
+                  <v-btn small>
+                    <input type="file" @change="OnFileSelected" />
+                    <v-icon>mdi-upload</v-icon>
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </v-container>
+            <small>
+              <p class="red-text">*Campo Obrigatório</p>
+            </small>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="danger" text @click="dialog = false">Cancelar</v-btn>
+            <v-btn color="blue darken-1" text @click="cadastrar">Cadastrar</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-list>
   </v-navigation-drawer>
 </template>
 
 <script>
+import firebase from "firebase";
+import bancoDados from "@/firebase/init";
 export default {
   data: () => ({
     dialog: false,
@@ -35,7 +87,7 @@ export default {
     andar: "",
     sexo: "",
     tipo: "",
-    foto: null,
+    foto: "",
     moradores: [],
     selectedFile: null,
     pessoaId: null
@@ -48,6 +100,7 @@ export default {
       console.log(this.andar);
       console.log(this.sexo);
       console.log(this.tipo);
+
       bancoDados.collection("morador").add({
         nome: this.nome,
         sobrenome: this.sobrenome,
@@ -56,7 +109,8 @@ export default {
         tipo: this.tipo,
         foto: this.foto
       });
-      OnFileSelected();
+      console.log(this.foto);
+      //   OnFileSelected();
     },
     OnFileSelected(event) {
       this.selectedFile = event.target.files[0];

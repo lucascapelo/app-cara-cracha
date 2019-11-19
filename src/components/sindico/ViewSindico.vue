@@ -2,64 +2,7 @@
   <div class="header">
     <MenuLateral />
     <v-toolbar>
-      <v-toolbar-title>Lista de Moradores</v-toolbar-title>
-      <v-spacer></v-spacer>
-      <!-- BOTÃO DE CADASTRO DE MORADORES  -->
-      <v-dialog v-model="dialog" persistent max-width="600px">
-        <template v-slot:activator="{ on }">
-          <v-btn fab depressed dark small color="orange" v-on="on">
-            <v-icon color="white">mdi-plus</v-icon>
-          </v-btn>
-          <!-- MODAL DE PREENCHIMENTO DE DADOS DO MORADOR -->
-        </template>
-        <v-card>
-          <v-card-title>
-            <span class="headline">Cadastro de Morador</span>
-          </v-card-title>
-          <v-card-text>
-            <v-container>
-              <v-row>
-                <v-col cols="12" sm="6">
-                  <v-text-field label="Nome*" v-model="nome" required hint="Ex.: Lucas"></v-text-field>
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <v-text-field label="Sobrenome*" v-model="sobrenome" required hint="Ex.: Capelo"></v-text-field>
-                </v-col>
-                <v-col cols="12" sm="6" md="4">
-                  <v-text-field label="Andar*" v-model="andar" required hint="Ex.:1302"></v-text-field>
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <v-select
-                    :items="['Masculino', 'Feminino']"
-                    v-model="sexo"
-                    label="Sexo*"
-                    required
-                  ></v-select>
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <v-select :items="['Morador', 'Agregado']" v-model="tipo" label="Tipo*" required></v-select>
-                </v-col>
-                <v-col cols="12">
-                  <span>Foto:</span>
-                  <v-spacer></v-spacer>
-                  <v-btn small>
-                    <input type="file" @change="OnFileSelected" />
-                    <v-icon>mdi-upload</v-icon>
-                  </v-btn>
-                </v-col>
-              </v-row>
-            </v-container>
-            <small>
-              <p class="red-text">*Campo Obrigatório</p>
-            </small>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="danger" text @click="dialog = false">Cancelar</v-btn>
-            <v-btn color="blue darken-1" text @click="cadastrar">Cadastrar</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+      <span class="headline font-weight-regular">Lista de Moradores</span>
     </v-toolbar>
     <!-- MOSTRUARIO DE MORADORES  -->
     <div>
@@ -68,7 +11,9 @@
         <v-col v-for="individuos in moradores" :key="individuos.id" cols="2">
           <v-card class="ma-2" width="170">
             <v-avatar class="profile" color="grey" size="164" tile>
-              <v-img src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"></v-img>
+              <v-img
+                src="https://firebasestorage.googleapis.com/v0/b/appcara-cracha.appspot.com/o/23167519_1520918527977444_5194999251625373556_n.jpg?alt=media&token=e153d44c-c907-4cb0-bad0-c6df7254f69c"
+              ></v-img>
             </v-avatar>
             <v-card-title class="headline">
               {{individuos.nome}}
