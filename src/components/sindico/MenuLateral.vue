@@ -4,13 +4,11 @@
     <v-list-item>
       <v-list-item-content>
         <v-img src="@/assets/cara-cracha.png"></v-img>
-        <!-- <v-list-item-title class="title">Application</v-list-item-title>
-        <v-list-item-subtitle>subtext</v-list-item-subtitle>-->
       </v-list-item-content>
     </v-list-item>
 
     <v-divider></v-divider>
-    <!-- PRECISA FAZER O FORM FUNCIONAR -->
+
     <v-list dense nav>
       <v-dialog v-model="dialog" persistent max-width="600px">
         <template v-slot:activator="{ on }">
@@ -28,45 +26,57 @@
             <span class="headline">Cadastro de Morador</span>
           </v-card-title>
           <v-card-text>
-            <v-container>
-              <v-row>
-                <v-col cols="12" sm="6">
-                  <v-text-field label="Nome*" v-model="nome" required hint="Ex.: Lucas"></v-text-field>
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <v-text-field label="Sobrenome*" v-model="sobrenome" required hint="Ex.: Capelo"></v-text-field>
-                </v-col>
-                <v-col cols="12" sm="6" md="4">
-                  <v-text-field label="Andar*" v-model="andar" required hint="Ex.:1302"></v-text-field>
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <v-select
-                    :items="['Masculino', 'Feminino']"
-                    v-model="sexo"
-                    label="Sexo*"
-                    required
-                  ></v-select>
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <v-select :items="['Morador', 'Agregado']" v-model="tipo" label="Tipo*" required></v-select>
-                </v-col>
-                <v-col cols="12">
-                  <span>Foto:</span>
-                  <v-spacer></v-spacer>
-                  <v-btn small>
-                    <input type="file" @change="OnFileSelected" />
-                    <v-icon>mdi-upload</v-icon>
-                  </v-btn>
-                </v-col>
-              </v-row>
-            </v-container>
+            <v-form ref="form">
+              <v-container>
+                <v-row>
+                  <v-col cols="12" sm="6">
+                    <v-text-field label="Nome*" v-model="nome" required hint="Ex.: Lucas"></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6">
+                    <v-text-field
+                      label="Sobrenome*"
+                      v-model="sobrenome"
+                      required
+                      hint="Ex.: Capelo"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field label="Andar*" v-model="andar" required hint="Ex.:1302"></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6">
+                    <v-select
+                      :items="['Masculino', 'Feminino']"
+                      v-model="sexo"
+                      label="Sexo*"
+                      required
+                    ></v-select>
+                  </v-col>
+                  <v-col cols="12" sm="6">
+                    <v-select
+                      :items="['Morador', 'Agregado']"
+                      v-model="tipo"
+                      label="Tipo*"
+                      required
+                    ></v-select>
+                  </v-col>
+                  <v-col cols="12">
+                    <span>Foto:</span>
+                    <v-spacer></v-spacer>
+                    <v-btn small>
+                      <input type="file" @change="OnFileSelected" />
+                      <v-icon>mdi-upload</v-icon>
+                    </v-btn>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-form>
             <small>
               <p class="red-text">*Campo Obrigatório</p>
             </small>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="danger" text @click="dialog = false">Cancelar</v-btn>
+            <v-btn color="danger" text @click="ClearForm">Cancelar</v-btn>
             <v-btn color="blue darken-1" text @click="cadastrar">Cadastrar</v-btn>
           </v-card-actions>
         </v-card>
@@ -100,6 +110,7 @@ export default {
       console.log(this.andar);
       console.log(this.sexo);
       console.log(this.tipo);
+      console.log(this.foto);
 
       bancoDados.collection("morador").add({
         nome: this.nome,
@@ -122,7 +133,12 @@ export default {
           this.foto = downloadURL;
         });
         console.log("Uploaded a blob or file!");
+        console.log(this.foto);
       });
+    },
+    ClearForm() {
+      this.$refs.form.reset();
+      this.dialog = false;
     }
   }
 };
