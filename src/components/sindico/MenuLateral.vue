@@ -125,17 +125,20 @@ export default {
         tipo: this.tipo,
         foto: this.foto
       });
-      console.log(this.foto);
+      
+      
+      this.ClearForm();
       //   OnFileSelected();
     },
     OnFileSelected(event) {
+      const self = this
       this.selectedFile = event.target.files[0];
       var storageRef = firebase.storage().ref();
       var mountainImagesRef = storageRef.child(this.selectedFile.name);
       mountainImagesRef.put(this.selectedFile).then(function(snapshot) {
         snapshot.ref.getDownloadURL().then(function(downloadURL) {
           console.log("File available at", downloadURL);
-          this.foto = downloadURL;
+          self.foto = downloadURL;
         });
         console.log("Uploaded a blob or file!");
         console.log(this.foto);

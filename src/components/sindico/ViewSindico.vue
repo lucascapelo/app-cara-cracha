@@ -12,7 +12,8 @@
           <v-card class="ma-2" width="170">
             <v-avatar class="profile" color="grey" size="164" tile>
               <v-img
-                src="https://firebasestorage.googleapis.com/v0/b/appcara-cracha.appspot.com/o/23167519_1520918527977444_5194999251625373556_n.jpg?alt=media&token=e153d44c-c907-4cb0-bad0-c6df7254f69c"
+                v-if="individuos.foto"
+                :src="individuos.foto"
               ></v-img>
             </v-avatar>
             <v-card-title class="headline">
@@ -111,35 +112,6 @@ export default {
       });
   },
   methods: {
-    cadastrar() {
-      this.dialog = false;
-      console.log(this.nome);
-      console.log(this.sobrenome);
-      console.log(this.andar);
-      console.log(this.sexo);
-      console.log(this.tipo);
-      bancoDados.collection("morador").add({
-        nome: this.nome,
-        sobrenome: this.sobrenome,
-        apartamento: this.andar,
-        sexo: this.sexo,
-        tipo: this.tipo,
-        foto: this.foto
-      });
-      OnFileSelected();
-    },
-    OnFileSelected(event) {
-      this.selectedFile = event.target.files[0];
-      var storageRef = firebase.storage().ref();
-      var mountainImagesRef = storageRef.child(this.selectedFile.name);
-      mountainImagesRef.put(this.selectedFile).then(function(snapshot) {
-        snapshot.ref.getDownloadURL().then(function(downloadURL) {
-          console.log("File available at", downloadURL);
-          this.foto = downloadURL;
-        });
-        console.log("Uploaded a blob or file!");
-      });
-    },
     // onUpload(){
     //   const fd = new FormData();
     //   fd.append('image',this.selectedFile, this.selectedFile.name)
