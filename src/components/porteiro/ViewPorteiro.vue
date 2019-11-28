@@ -11,12 +11,19 @@
         <span class="headline text-uppercase">Lista de apartamentos</span>
         <v-spacer></v-spacer>
       </v-toolbar>
+      <MenuPorteiro />
       <!-- Renderizando os botoes de andares -->
     </div>
     <v-row align="center">
       <v-col v-for="andar in apartamentos" :key="andar.num" class="text-center" cols="3">
         <v-row justify="center">
-          <v-btn dark x-large color="#7a9fea" v-bind="andar.num" @click="openMoradoresCard(andar)">{{andar}}</v-btn>
+          <v-btn
+            dark
+            x-large
+            color="#7a9fea"
+            v-bind="andar.num"
+            @click="openMoradoresCard(andar)"
+          >{{andar}}</v-btn>
         </v-row>
       </v-col>
     </v-row>
@@ -35,14 +42,9 @@
             <!-- CADA CARD DE MORADOR -->
             <div class="cards" v-for="individuos in moradores" :key="individuos.id">
               <v-card v-if="individuos.tipo === 'Morador'" class="ma-2" max-width="200">
-                 <v-avatar
-            class="profile"
-            color="grey"
-            size="164"
-            tile
-          >
-            <v-img src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"></v-img>
-          </v-avatar>
+                <v-avatar class="profile" color="grey" size="164" tile>
+                  <v-img src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"></v-img>
+                </v-avatar>
                 <v-card-title class="headline">{{individuos.nome}} {{individuos.sobrenome}}</v-card-title>
                 <v-card-text>
                   <div>
@@ -55,8 +57,8 @@
                   </div>
                   <div>
                     <strong>{{individuos.apartamento}}</strong>
-                  </div>                
-              </v-card-text>
+                  </div>
+                </v-card-text>
                 <v-card-actions>
                   <v-btn v-if="session === 'sindico'" small color="red">
                     <v-icon color="white">mdi-delete</v-icon>
@@ -74,29 +76,23 @@
             <!-- CADA CARD DE AGREGADOS -->
             <div class="cards" v-for="individuos in moradores" :key="individuos.id">
               <v-card v-if="individuos.tipo === 'Agregado'" class="ma-2" max-width="200">
-                 <v-avatar
-            class="profile"
-            color="grey"
-            size="164"
-            tile
-          >
-            <v-img src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"></v-img>
-          </v-avatar>
+                <v-avatar class="profile" color="grey" size="164" tile>
+                  <v-img src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"></v-img>
+                </v-avatar>
                 <v-card-title class="headline">{{individuos.nome}} {{individuos.sobrenome}}</v-card-title>
-              <v-card-text>
-                <div>
-                  <v-chip>
-                    <span>{{individuos.tipo}}</span>
-                  </v-chip>
-                </div>
-                <div>
-                  <strong>{{individuos.sexo}}</strong>
-                </div>
-                <div>
-                  <strong>{{individuos.apartamento}}</strong>
-                </div>
-                
-              </v-card-text>
+                <v-card-text>
+                  <div>
+                    <v-chip>
+                      <span>{{individuos.tipo}}</span>
+                    </v-chip>
+                  </div>
+                  <div>
+                    <strong>{{individuos.sexo}}</strong>
+                  </div>
+                  <div>
+                    <strong>{{individuos.apartamento}}</strong>
+                  </div>
+                </v-card-text>
                 <v-card-actions v-if="session === 'sindico'">
                   <v-btn small color="red">
                     <v-icon color="white">mdi-delete</v-icon>
@@ -112,10 +108,12 @@
 </template>
 
 <script>
+import MenuPorteiro from "./MenuLateralP";
 import bancoDados from "@/firebase/init";
 
 export default {
   name: "ViewPorteiro",
+  components: { MenuPorteiro },
   props: ["session"],
   data() {
     return {

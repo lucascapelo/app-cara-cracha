@@ -3,6 +3,7 @@
     <MenuLateral />
     <v-toolbar>
       <span class="headline font-weight-regular">Lista de Moradores</span>
+      
     </v-toolbar>
     <!-- MOSTRUARIO DE MORADORES  -->
     <div>

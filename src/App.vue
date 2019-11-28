@@ -31,7 +31,7 @@ export default {
   },
   data() {
     return {
-      session: "sindico",
+      session: "porteiro",
       apartamentos: [],
       items: [
         { title: "Cadastrar Morador", icon: "mdi-plus" },
