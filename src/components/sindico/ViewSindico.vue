@@ -40,16 +40,22 @@
 
               <!-- BOTÃO DE DELETAR -->
               <v-dialog v-model="dialogDelete" persistent max-width="320">
-                <template v-slot:activator="{on}">
+                <template v-slot:activator="{on : dialogDelete}">
+                  <v-tooltip bottom>
+                  <template v-slot:activator="{on : tooltip}">
                   <v-btn
                     v-if="session === 'sindico'"
                     @click="check(individuos)"
                     small
-                    color="red"
-                    v-on="on"
+                    darken
+                    color="danger"
+                    v-on="{...dialogDelete, ...tooltip}"
                   >
-                    <v-icon color="white">mdi-delete</v-icon>
+                    <v-icon >mdi-delete</v-icon>
                   </v-btn>
+                  </template>
+                  <span>Deletar Morador</span>
+                  </v-tooltip>
                 </template>
                 <v-card>
                   <v-card-title class="headline">Tem certeza que deseja excluir esse morador?</v-card-title>
@@ -62,11 +68,8 @@
                 </v-card>
               </v-dialog>
               <v-spacer></v-spacer>
-
               <!-- BOTÃO DE EDITAR MORADOR -->
-              <v-btn v-if="session === 'sindico'" small color="danger">
-                <v-icon>mdi-pen</v-icon>
-              </v-btn>
+              <EditButton />
             </v-card-actions>
           </v-card>
         </v-col>
@@ -78,13 +81,14 @@
 </template>
 
 <script>
+import EditButton from "./EditButton";
 import MenuLateral from "./MenuLateral";
 import ViewPorteiro from "../porteiro/ViewPorteiro";
 import bancoDados from "@/firebase/init";
 import axios from "axios";
 import firebase from "firebase";
 export default {
-  components: { ViewPorteiro, MenuLateral },
+  components: { ViewPorteiro, MenuLateral, EditButton },
   props: ["session"],
   data: () => ({
     dialog: false,
