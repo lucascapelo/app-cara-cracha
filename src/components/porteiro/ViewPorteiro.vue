@@ -43,9 +43,16 @@
             <div class="cards" v-for="individuos in moradores" :key="individuos.id">
               <v-card v-if="individuos.tipo === 'Morador'" class="ma-2" max-width="200">
                 <v-avatar class="profile" color="grey" size="164" tile>
-                  <v-img src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"></v-img>
-                </v-avatar>
-                <v-card-title class="headline">{{individuos.nome}} {{individuos.sobrenome}}</v-card-title>
+              <v-img
+                v-if="individuos.foto"
+                :src="individuos.foto"
+              ></v-img>
+            </v-avatar>
+               <v-card-title class="headline">
+              {{individuos.nome}}
+              <br />
+              {{individuos.sobrenome}}
+            </v-card-title>
                 <v-card-text>
                   <div>
                     <v-chip>
@@ -76,10 +83,17 @@
             <!-- CADA CARD DE AGREGADOS -->
             <div class="cards" v-for="individuos in moradores" :key="individuos.id">
               <v-card v-if="individuos.tipo === 'Agregado'" class="ma-2" max-width="200">
-                <v-avatar class="profile" color="grey" size="164" tile>
-                  <v-img src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"></v-img>
-                </v-avatar>
-                <v-card-title class="headline">{{individuos.nome}} {{individuos.sobrenome}}</v-card-title>
+               <v-avatar class="profile" color="grey" size="164" tile>
+              <v-img
+                v-if="individuos.foto"
+                :src="individuos.foto"
+              ></v-img>
+            </v-avatar>
+               <v-card-title class="headline">
+              {{individuos.nome}}
+              <br />
+              {{individuos.sobrenome}}
+            </v-card-title>
                 <v-card-text>
                   <div>
                     <v-chip>

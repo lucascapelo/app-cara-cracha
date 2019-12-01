@@ -1,16 +1,6 @@
 <template>
   <v-app>
-    <!-- <v-app-bar dark app color="#0f3252">
-      <v-toolbar-title class="headline text-uppercase">
-        <span>Cara</span>
-    <span class="font-weight-light">Crachá</span>-->
-    <!-- <v-img src="@/assets/logo_ivia_intranet.png"></v-img>
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn text>
-        <span class="mr-2">{{this.session}}</span>
-      </v-btn>
-    </v-app-bar>-->
+    
 
     <v-content>
       <TelaLogin v-if="this.session === null"/>
@@ -34,7 +24,7 @@ export default {
   },
   data() {
     return {
-      session: "porteiro",
+      session: null,
       apartamentos: [],
       items: [
         { title: "Cadastrar Morador", icon: "mdi-plus" },
