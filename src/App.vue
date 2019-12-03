@@ -1,9 +1,7 @@
 <template>
   <v-app>
-    
-
     <v-content>
-      <TelaLogin v-if="this.session === null"/>
+      <TelaLogin @meuLogin="defineSession" v-if="this.session === null" />
       <ViewPorteiro v-if="this.session=== 'porteiro'" :session="session" />
       <ViewSindico v-if="this.session=== 'sindico'" :session="session" />
     </v-content>
@@ -24,7 +22,7 @@ export default {
   },
   data() {
     return {
-      session: 'sindico',
+      session: null,
       apartamentos: [],
       items: [
         { title: "Cadastrar Morador", icon: "mdi-plus" },
@@ -33,6 +31,11 @@ export default {
       ],
       right: null
     };
+  },
+  methods: {
+    defineSession(payload) {
+      this.session = payload.user;
+    }
   }
 };
 </script>
