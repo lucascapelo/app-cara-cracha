@@ -3,12 +3,12 @@
 <!-- <v-img src="@/assets/TelaLogin.jpeg"> -->
   <v-card color="#0d2c48" height="1080" width="1920">
    <v-container fluid>
-    <v-row>
+    <v-row >
+      <v-img src="@/assets/cara-cracha.png" contain height="80" width="80"></v-img>
       <v-col cols="12">
         <v-row
           align="center"
-          justify="center"
-          class="grey lighten-5"
+          justify="center"         
           style="height: 300px;"
         >
           <v-card           
@@ -16,14 +16,34 @@
             outlined
             tile
           >
-          <v-img src="@/assets/cara-cracha.png" size="154"></v-img>
-            <v-form>
-              <v-text-field v-model="usuario"
-              :rules="nameRules"
-              label="Usuario"
+         
+          
+            <v-form>              
+              <v-select
+                v-model="usuario"
+                :items="items"
+                :rules="[v => !!v || 'Item is required']"
+                prepend-inner-icon="mdi-account"
+                label="Usuário"
+                required
+              ></v-select>
+               
+              
+              <v-spacer></v-spacer>
+              <v-text-field v-model="senha"
+              :rules="senhaRules"
+              prepend-inner-icon="mdi-lock"
+              label="Senha"
               required>
               </v-text-field>
             </v-form>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn>
+                Login
+              </v-btn>
+              <v-spacer></v-spacer>
+            </v-card-actions>
           </v-card>
         </v-row>
       
@@ -41,20 +61,20 @@ data: () => ({
       valid: true,
       usuario: '',
       nameRules: [
-        v => !!v || 'Name is required',
+        v => !!v || 'Usuário é requerido',
         v => (v && v.length <= 10) || 'Name must be less than 10 characters',
       ],
-      email: '',
-      emailRules: [
-        v => !!v || 'E-mail is required',
+      senha: '',
+      senhaRules: [
+        v => !!v || 'Senha é requerida',
         v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
       ],
       select: null,
       items: [
-        'Item 1',
-        'Item 2',
-        'Item 3',
-        'Item 4',
+        'Sindico',
+        'Conselho',
+        'Porteiro',
+        
       ],
       checkbox: false,
     }),
@@ -71,6 +91,9 @@ data: () => ({
       resetValidation () {
         this.$refs.form.resetValidation()
       },
+      login(){
+
+      }
     },
 }
 </script>
