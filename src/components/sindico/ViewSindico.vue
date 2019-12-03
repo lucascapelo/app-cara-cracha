@@ -107,6 +107,7 @@ export default {
   created() {
     bancoDados
       .collection("morador")
+      .orderBy("apartamento", "asc")
       .get()
       .then(snapshot => {
         snapshot.forEach(liver => {

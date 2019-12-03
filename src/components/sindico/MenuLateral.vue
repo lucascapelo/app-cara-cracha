@@ -5,7 +5,7 @@
     <v-img src="@/assets/fundo.png">
       <v-list-item>
         <v-list-item-content>
-          <v-img src="@/assets/cara-cracha.png"></v-img>
+          <v-img src="@/assets/cara-cracha.png" contain></v-img>
         </v-list-item-content>
       </v-list-item>
     </v-img>

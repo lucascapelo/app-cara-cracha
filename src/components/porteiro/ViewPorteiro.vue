@@ -32,8 +32,8 @@
     <v-dialog fullscreen v-model="dialog">
       <v-card>
         <v-toolbar dark color="blue darken-4">
-          <v-btn color="primary" class="mr-7" @click="closeDialog">
-            <v-icon>mdi-arrow-left-bold</v-icon>
+          <v-btn color="primary" class="mr-2" text @click="closeDialog">
+            <v-icon color="white">mdi-arrow-left</v-icon>
           </v-btn>
           <span class="headline">Moradores</span>
         </v-toolbar>
@@ -142,7 +142,7 @@ export default {
       this.andarId = andar;
       bancoDados
         .collection("morador")
-        .where("apartamento", "==", this.andarId)
+        .where("apartamento", "==", this.andarId)        
         .get()
         .then(snapshot => {
           snapshot.forEach(liver => {
@@ -163,7 +163,10 @@ export default {
   created() {
     //chamada de apartamentos
     bancoDados
-      .collection("apartamentos")
+      
+.collection("apartamentos")
+.orderBy("num","asc")
+
       .get()
       .then(snapshot => {
         snapshot.forEach(doc => {
