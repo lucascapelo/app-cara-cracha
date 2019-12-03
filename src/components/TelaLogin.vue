@@ -39,7 +39,7 @@
         </v-row>
       </v-container>
     </v-card>
-    <v-snackbar v-model="snackbarValidate" top color="red">Senha invalida</v-snackbar>
+    <v-snackbar v-model="snackbarValidate" :timeout="timeout" top color="red">Senha invalida</v-snackbar>
     <!-- </v-img> -->
   </div>
 </template>
@@ -58,7 +58,7 @@ export default {
     select: null,
     items: ["Sindico", "Conselho", "Porteiro"],
     snackbarValidate: false,
-    timeout: 2000
+    timeout: 3000
   }),
 
   methods: {
@@ -76,8 +76,8 @@ export default {
     login() {
       let user = "";
       if (
-        this.usuario === "Sindico" ||
-        ("Conselho" && this.senha === "paq2240")
+        (this.usuario === "Sindico" || this.usuario === "Conselho") &&
+        this.senha === "paq2240"
       ) {
         user = "sindico";
         this.$emit("meuLogin", { user });
@@ -87,9 +87,7 @@ export default {
         this.$emit("meuLogin", { user });
       } else {
         this.snackbarValidate = true;
-        this.login = null;
         this.senha = null;
-        this.snackbarValidate = false;
       }
     }
   }
