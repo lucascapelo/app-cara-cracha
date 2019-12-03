@@ -32,6 +32,7 @@
               <v-spacer></v-spacer>
               <v-text-field v-model="senha"
               :rules="senhaRules"
+              type="password"
               prepend-inner-icon="mdi-lock"
               label="Senha"
               required>
@@ -39,7 +40,7 @@
             </v-form>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn>
+              <v-btn @click="login">
                 Login
               </v-btn>
               <v-spacer></v-spacer>
@@ -51,6 +52,7 @@
     </v-row>
   </v-container>
   </v-card>
+  <v-snackbar v-model="snackbarValidate" timeout="2000" top color="red">Senha invalida</v-snackbar>
   <!-- </v-img> -->
   </div>
 </template>
@@ -67,16 +69,16 @@ data: () => ({
       senha: '',
       senhaRules: [
         v => !!v || 'Senha é requerida',
-        v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+        
       ],
       select: null,
       items: [
         'Sindico',
         'Conselho',
-        'Porteiro',
-        
+        'Porteiro',        
       ],
-      checkbox: false,
+      snackbarValidate: false
+      
     }),
 
     methods: {
@@ -92,7 +94,20 @@ data: () => ({
         this.$refs.form.resetValidation()
       },
       login(){
-
+        console.log(this.usuario,this.senha)
+        if(this.usuario === 'Sindico'||'Conselho' && this.senha !== 'paq1302'){
+          this.snackbarValidate = true
+        }
+        else if(this.usuario === 'Porteiro' && this.senha !== 'portaria'){
+          this.snackbarValidate = true
+        }
+        else{
+          let user = '';
+          if(this.usuario === 'Sindico'||'Conselho'){
+            user = 'Sindico'
+          } 
+          
+        }
       }
     },
 }
