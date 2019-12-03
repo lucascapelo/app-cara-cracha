@@ -3,7 +3,6 @@
     <MenuLateral />
     <v-toolbar>
       <span class="headline font-weight-regular">Lista de Moradores</span>
-      
     </v-toolbar>
     <!-- MOSTRUARIO DE MORADORES  -->
     <div>
@@ -12,10 +11,7 @@
         <v-col v-for="individuos in moradores" :key="individuos.id" cols="2">
           <v-card class="ma-2" width="170">
             <v-avatar class="profile" color="grey" size="164" tile>
-              <v-img
-                v-if="individuos.foto"
-                :src="individuos.foto"
-              ></v-img>
+              <v-img v-if="individuos.foto" :src="individuos.foto"></v-img>
             </v-avatar>
             <v-card-title class="headline">
               {{individuos.nome}}
@@ -43,19 +39,19 @@
               <v-dialog v-model="dialogDelete" persistent max-width="320">
                 <template v-slot:activator="{on : dialogDelete}">
                   <v-tooltip bottom>
-                  <template v-slot:activator="{on : tooltip}">
-                  <v-btn
-                    v-if="session === 'sindico'"
-                    @click="check(individuos)"
-                    small
-                    darken
-                    color="danger"
-                    v-on="{...dialogDelete, ...tooltip}"
-                  >
-                    <v-icon >mdi-delete</v-icon>
-                  </v-btn>
-                  </template>
-                  <span>Deletar Morador</span>
+                    <template v-slot:activator="{on : tooltip}">
+                      <v-btn
+                        v-if="session === 'sindico'"
+                        @click="check(individuos)"
+                        small
+                        darken
+                        color="danger"
+                        v-on="{...dialogDelete, ...tooltip}"
+                      >
+                        <v-icon>mdi-delete</v-icon>
+                      </v-btn>
+                    </template>
+                    <span>Deletar Morador</span>
                   </v-tooltip>
                 </template>
                 <v-card>
@@ -76,7 +72,13 @@
         </v-col>
       </v-row>
     </div>
-    <!-- <ViewPorteiro /> -->
+
+    <v-snackbar
+      v-model="snackbarDelete"
+      :timeout="timeout"
+      top
+      color="success"
+    >Usuário deletado com suceso</v-snackbar>
   </div>
   <!-- </div> -->
 </template>
@@ -88,6 +90,7 @@ import ViewPorteiro from "../porteiro/ViewPorteiro";
 import bancoDados from "@/firebase/init";
 import axios from "axios";
 import firebase from "firebase";
+import { timeout } from "q";
 export default {
   components: { ViewPorteiro, MenuLateral, EditButton },
   props: ["session"],
@@ -102,7 +105,9 @@ export default {
     foto: null,
     moradores: [],
     selectedFile: null,
-    pessoaId: null
+    pessoaId: null,
+    snackbarDelete: null,
+    timeout: 3000
   }),
   created() {
     bancoDados
@@ -118,14 +123,6 @@ export default {
       });
   },
   methods: {
-    // onUpload(){
-    //   const fd = new FormData();
-    //   fd.append('image',this.selectedFile, this.selectedFile.name)
-    //   axios.post('https://us-central1-appcara-cracha.cloudfunctions.net/uploadFile ', fd)
-    //     .then(res =>{
-    //       console.log(res);
-    //     })
-    // },
     deletarMorador() {
       this.dialogDelete = false;
       console.log(this.pessoaId);
@@ -140,10 +137,18 @@ export default {
           console.error("Error removing document: ", error);
           this.pessoaId = null;
         });
+      this.snackbarDelete = true;
     },
     check(morador) {
       console.log(morador.id);
       this.pessoaId = morador.id;
+    },
+    update() {
+      this.equipamentos = this.equipamentos.filter(equipamento => {
+        return equipamento.id !== identificador;
+      });
+      this.snackbarDevolvido = true;
+      this.conferirPendencias();
     }
   }
 };
