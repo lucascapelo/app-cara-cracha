@@ -125,13 +125,11 @@ export default {
         tipo: this.tipo,
         foto: this.foto
       });
-      
-      
       this.ClearForm();
       //   OnFileSelected();
     },
     OnFileSelected(event) {
-      const self = this
+      const self = this;
       this.selectedFile = event.target.files[0];
       var storageRef = firebase.storage().ref();
       var mountainImagesRef = storageRef.child(this.selectedFile.name);

@@ -39,7 +39,12 @@
         </v-row>
       </v-container>
     </v-card>
-    <v-snackbar v-model="snackbarValidate" :timeout="timeout" top color="red">Senha invalida</v-snackbar>
+    <v-snackbar
+      v-model="snackbarValidate"
+      :timeout="timeout"
+      top
+      color="red"
+    >Usuário ou senha incorretos</v-snackbar>
     <!-- </v-img> -->
   </div>
 </template>

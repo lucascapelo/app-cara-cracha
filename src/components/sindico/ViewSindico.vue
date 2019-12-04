@@ -124,31 +124,29 @@ export default {
   },
   methods: {
     deletarMorador() {
-      this.dialogDelete = false;
+      let self = this;
       console.log(this.pessoaId);
       bancoDados
         .collection("morador")
         .doc(this.pessoaId)
         .delete()
         .then(function() {
+          self.moradores = self.moradores.filter(morador => {
+            return morador.id !== self.pessoaId;
+          });
           console.log("O morador foi removido!");
         })
         .catch(function(error) {
           console.error("Error removing document: ", error);
           this.pessoaId = null;
         });
+      this.dialogDelete = false;
       this.snackbarDelete = true;
     },
     check(morador) {
       console.log(morador.id);
       this.pessoaId = morador.id;
-    },
-    update() {
-      this.equipamentos = this.equipamentos.filter(equipamento => {
-        return equipamento.id !== identificador;
-      });
-      this.snackbarDevolvido = true;
-      this.conferirPendencias();
+      ///////
     }
   }
 };
