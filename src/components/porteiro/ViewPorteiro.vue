@@ -31,7 +31,7 @@
     <!-- COMPONENT DE MORADORES -->
     <v-dialog fullscreen v-model="dialog">
       <v-card>
-        <v-toolbar dark color="blue darken-4">
+        <v-toolbar dark color="#0f3252">
           <v-btn color="primary" class="mr-2" text @click="closeDialog">
             <v-icon color="white">mdi-arrow-left</v-icon>
           </v-btn>
@@ -75,7 +75,7 @@
             </div>
           </v-row>
         </v-container>
-        <v-toolbar dark color="blue darken-4">
+        <v-toolbar dark color="#0f3252">
           <span class="headline">Agregados</span>
         </v-toolbar>
         <v-container fluid>

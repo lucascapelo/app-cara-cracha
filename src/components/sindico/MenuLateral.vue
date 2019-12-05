@@ -1,4 +1,5 @@
 <template>
+
   <v-navigation-drawer permanent dark app color="#0f3252">
     <v-spacer></v-spacer>
 
@@ -9,12 +10,12 @@
         </v-list-item-content>
       </v-list-item>
     </v-img>
-
+    
     <v-divider></v-divider>
-
+    
     <v-img src="@/assets/predio-menu-lateral.png" height="850px">
       <v-list dense nav>
-        <v-dialog v-model="dialog" persistent max-width="600px">
+        <!-- <v-dialog v-model="dialog" persistent max-width="600px">
           <template v-slot:activator="{ on }">
             <v-list-item link v-on="on">
               <v-list-item-icon>
@@ -84,7 +85,7 @@
               <v-btn color="blue darken-1" text @click="cadastrar">Cadastrar</v-btn>
             </v-card-actions>
           </v-card>
-        </v-dialog>
+        </v-dialog> -->
       </v-list>
     </v-img>
   </v-navigation-drawer>
@@ -94,6 +95,7 @@
 import firebase from "firebase";
 import bancoDados from "@/firebase/init";
 export default {
+  props:['moradores'],
   data: () => ({
     dialog: false,
     dialogDelete: false,
@@ -102,8 +104,7 @@ export default {
     andar: "",
     sexo: "",
     tipo: "",
-    foto: "",
-    moradores: [],
+    foto: "",    
     selectedFile: null,
     pessoaId: null
   }),
@@ -116,7 +117,8 @@ export default {
       console.log(this.sexo);
       console.log(this.tipo);
       console.log(this.foto);
-
+      let novoArray = []
+      const self = this;
       bancoDados.collection("morador").add({
         nome: this.nome,
         sobrenome: this.sobrenome,
@@ -124,7 +126,16 @@ export default {
         sexo: this.sexo,
         tipo: this.tipo,
         foto: this.foto
+      })
+      .then(function() {
+         this.novoArray = self.moradores.filter(morador => {
+            return morador.id;
+          });
+          console.log(self.moradores);
       });
+      
+      this.$emit("InserirMorado",{moradores})
+          console.log("O morador foi adicionado");  
       this.ClearForm();
       //   OnFileSelected();
     },
@@ -139,7 +150,7 @@ export default {
           self.foto = downloadURL;
         });
         console.log("Uploaded a blob or file!");
-        console.log(this.foto);
+        console.log(self.foto);
       });
     },
     ClearForm() {

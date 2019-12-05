@@ -3,7 +3,80 @@
     <MenuLateral />
     <v-toolbar>
       <span class="headline font-weight-regular">Lista de Moradores</span>
-    </v-toolbar>
+      <v-spacer></v-spacer>
+      <!-- BOTÃO DE CADASTRO -->
+      <v-dialog v-model="dialog" persistent max-width="600px">
+          <template v-slot:activator="{ on:dialog }">
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on:tooltip }">
+            <v-btn fab color="#7596cc" v-on="{...tooltip,...dialog}">
+              <v-icon color="white">mdi-plus</v-icon>
+            </v-btn>
+              </template>
+              <span>Adicionar Morador</span>
+            </v-tooltip>  
+          </template>
+          <v-card>
+            <v-card-title>
+              <span class="headline">Cadastro de Morador</span>
+            </v-card-title>
+            <v-card-text>
+              <v-form ref="form">
+                <v-container>
+                  <v-row>
+                    <v-col cols="12" sm="6">
+                      <v-text-field label="Nome*" v-model="nome" required hint="Ex.: Lucas"></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6">
+                      <v-text-field
+                        label="Sobrenome*"
+                        v-model="sobrenome"
+                        required
+                        hint="Ex.: Capelo"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field label="Andar*" v-model="andar" required hint="Ex.:1302"></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6">
+                      <v-select
+                        :items="['Masculino', 'Feminino']"
+                        v-model="sexo"
+                        label="Sexo*"
+                        required
+                      ></v-select>
+                    </v-col>
+                    <v-col cols="12" sm="6">
+                      <v-select
+                        :items="['Morador', 'Agregado']"
+                        v-model="tipo"
+                        label="Tipo*"
+                        required
+                      ></v-select>
+                    </v-col>
+                    <v-col cols="12">
+                      <span>Foto:</span>
+                      <v-spacer></v-spacer>
+                      <v-btn small>
+                        <input type="file" @change="OnFileSelected" />
+                        <v-icon>mdi-upload</v-icon>
+                      </v-btn>
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-form>
+              <small>
+                <p class="red-text">*Campo Obrigatório</p>
+              </small>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="danger" text @click="ClearForm">Cancelar</v-btn>
+              <v-btn color="blue darken-1" text @click="cadastrar">Cadastrar</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+    </v-toolbar>  
     <!-- MOSTRUARIO DE MORADORES  -->
     <div>
       <!-- <div class="cards" v-for="individuos in moradores" :key="individuos.id"> -->
@@ -66,7 +139,70 @@
               </v-dialog>
               <v-spacer></v-spacer>
               <!-- BOTÃO DE EDITAR MORADOR -->
-              <EditButton />
+              <v-dialog v-model="dialogEdit" persistent max-width="320">
+                <template v-slot:activator="{on : dialogEdit}">
+                  <v-tooltip bottom>
+                    <template v-slot:activator="{on : tooltip}">
+                      <v-btn
+                        v-if="session === 'sindico'"
+                        @click="check(individuos)"
+                        small
+                        darken
+                        color="danger"
+                        v-on="{...dialogEdit, ...tooltip}"
+                      >
+                        <v-icon>mdi-pen</v-icon>
+                      </v-btn>
+                    </template>
+                    <span>Editar Morador</span>
+                  </v-tooltip>
+                </template>
+                <v-card>
+      <v-card-title>
+        <span class="headline">Editar Morador</span>
+      </v-card-title>
+      <v-card-text>
+        <v-form ref="form">
+          <v-container>
+            <v-row>
+              <v-col cols="12" sm="6">
+                <v-text-field label="Nome*" v-model="nomeE" required hint="Ex.: Lucas"></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-text-field label="Sobrenome*" v-model="sobrenomeE" required hint="Ex.: Capelo"></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6" md="4">
+                <v-text-field label="Andar*" v-model="andarE" required hint="Ex.:1302"></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-select :items="['Masculino', 'Feminino']" v-model="sexoE" label="Sexo*" required></v-select>
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-select :items="['Morador', 'Agregado']" v-model="tipoE" label="Tipo*" required></v-select>
+              </v-col>
+              <v-col cols="12">
+                <!-- <span>Foto:</span>
+                <v-spacer></v-spacer>
+                <v-btn small>
+                  <input type="file" @change="OnFileSelected" />
+                  <v-icon>mdi-upload</v-icon>
+                </v-btn> -->
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-form>
+        <small>
+          <p class="red-text">*Campo Obrigatório</p>
+        </small>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="danger" text @click="dialogEdit=false">Cancelar</v-btn>
+        <v-btn color="blue darken-1" text @click="editarMorador">Editar</v-btn>
+      </v-card-actions>
+    </v-card>
+              </v-dialog>
+              <!-- <EditButton /> -->
             </v-card-actions>
           </v-card>
         </v-col>
@@ -79,6 +215,18 @@
       top
       color="success"
     >Usuário deletado com suceso</v-snackbar>
+    <v-snackbar
+      v-model="snackbarCadastro"
+      :timeout="timeout"
+      top
+      color="success"
+    >Usuário Cadastrado com sucesso</v-snackbar>
+    <v-snackbar
+      v-model="snackbarUpdate"
+      :timeout="timeout"
+      top
+      color="success"
+    >Usuário foi editado com suceso</v-snackbar>
   </div>
   <!-- </div> -->
 </template>
@@ -97,17 +245,26 @@ export default {
   data: () => ({
     dialog: false,
     dialogDelete: false,
+    dialogEdit: false,
     nome: "",
     sobrenome: "",
     andar: "",
     sexo: "",
     tipo: "",
     foto: null,
+    nomeE: "",
+    sobrenomeE: "",
+    andarE: "",
+    sexoE: "",
+    tipoE: "",    
     moradores: [],
     selectedFile: null,
     pessoaId: null,
     snackbarDelete: null,
-    timeout: 3000
+    snackbarCadastro: null,
+    snackbarUpdate:null,
+    timeout: 3000,
+    aux: 0
   }),
   created() {
     bancoDados
@@ -122,6 +279,7 @@ export default {
         });
       });
   },
+  
   methods: {
     deletarMorador() {
       let self = this;
@@ -147,6 +305,85 @@ export default {
       console.log(morador.id);
       this.pessoaId = morador.id;
       ///////
+    },
+    // AtualizarMoradores(payload){
+    //   console.log("cheguei aqui");
+    //   this.moradores = payload.novoArray;
+    //   this.moradores = this.moradores.filter(morador => {
+    //     return morador.id;
+    //   });
+    //   console.log("morador cadastrado")
+    // },
+    cadastrar() {
+      this.dialog = false;
+      console.log(this.nome);
+      console.log(this.sobrenome);
+      console.log(this.andar);
+      console.log(this.sexo);
+      console.log(this.tipo);
+      console.log(this.foto);
+      
+      const self = this;
+      bancoDados.collection("morador").add({
+        nome: this.nome,
+        sobrenome: this.sobrenome,
+        apartamento: this.andar,
+        sexo: this.sexo,
+        tipo: this.tipo,
+        foto: this.foto        
+      })      
+      .then(function() {
+        console.log(self.moradores)        
+        self.IncreaseAux() 
+          });
+        
+      
+      console.log("AAAAAAAAAAAAAAAAAAAa")
+      console.log(self.moradores)
+      this.ClearForm();
+      this.snackbarCadastro = true
+    },
+    editarMorador(){
+      let self = this
+      bancoDados
+        .collection("morador")
+        .doc(this.pessoaId)
+        .update({
+          nome: this.nomeE,
+          sobrenome: this.sobrenomeE,
+          apartamento: this.andarE,
+          sexo: this.sexoE,
+          tipo: this.tipoE
+        })
+        .then(function() {
+          self.moradores = self.moradores.filter(morador => {
+            return morador.id !== self.pessoaId;
+          });
+          console.log("O morador foi Editado!");
+        })
+      this.dialogEdit = false;
+      this.snackbarUpdate = true;
+    },
+    OnFileSelected(event) {
+      const self = this;
+      this.selectedFile = event.target.files[0];
+      var storageRef = firebase.storage().ref();
+      var mountainImagesRef = storageRef.child(this.selectedFile.name);
+      mountainImagesRef.put(this.selectedFile).then(function(snapshot) {
+        snapshot.ref.getDownloadURL().then(function(downloadURL) {
+          console.log("File available at", downloadURL);
+          self.foto = downloadURL;
+        });
+        console.log("Uploaded a blob or file!");
+        console.log(self.foto);
+      });
+    },
+    ClearForm() {
+      this.$refs.form.reset();
+      this.dialog = false;
+    },
+    IncreaseAux(){
+      this.aux++
     }
   }
 };
